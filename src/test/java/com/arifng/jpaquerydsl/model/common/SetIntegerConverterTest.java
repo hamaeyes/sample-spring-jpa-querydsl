@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.arifng.jpaquerydsl.common.converter.SetIntegerConverter;
+import com.bong.jpaquerydsl.common.converter.SetIntegerConverter;
 import com.google.common.collect.Sets;
 
 @DisplayName("MySQL Set Type을 Set<Integer>으로 변환 테스트")
