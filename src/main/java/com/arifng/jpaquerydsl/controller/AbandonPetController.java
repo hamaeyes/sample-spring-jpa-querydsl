@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.arifng.jpaquerydsl.Characteristic;
+import com.arifng.jpaquerydsl.common.enums.Characteristic;
 import com.arifng.jpaquerydsl.model.AbandonPet;
 import com.arifng.jpaquerydsl.service.AbandonPetService;
 
@@ -23,10 +23,10 @@ public class AbandonPetController {
 	@GetMapping(value = "/abandon")
 	public void save() {
 		 AbandonPet abandon = new AbandonPet();
-		 abandon.setId("10000002");
-		 abandon.setCareNm("Hi");  
-		 abandon.setColorCds(EnumSet.of(Characteristic.a, Characteristic.b));
-		 abandon.setCreateDt(LocalDateTime.now());
+//		 abandon.setId("10000002");
+//		 abandon.setCareNm("Hi");  
+//		 abandon.setColorCds(EnumSet.of(Characteristic.a, Characteristic.b));
+//		 abandon.setCreateDt(LocalDateTime.now());
 		 abandonPetService.save(abandon);
 		 
 	 }

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.AttributeConverter;
 
+
 public abstract class SetConverter<T> implements AttributeConverter<Set<T>, String> {
     protected final String SEPARATOR = ",";
 

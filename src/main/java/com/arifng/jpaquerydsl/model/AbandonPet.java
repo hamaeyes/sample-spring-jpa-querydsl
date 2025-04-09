@@ -13,14 +13,12 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.arifng.jpaquerydsl.Characteristic;
 import com.arifng.jpaquerydsl.common.converter.SetCharacteristicConverter;
+import com.arifng.jpaquerydsl.common.enums.Characteristic;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Getter; 
 
 @Getter
-@Setter
 @DynamicUpdate
 @Entity
 @Table(name = "abandon_pet")
@@ -40,7 +38,7 @@ public class AbandonPet {
     private Integer stateCd;
 
     /* 접수일 */
-    @Column(name = "happen_dt", nullable = true)
+    @Column(name = "happen_dt", nullable = false)
     private LocalDate happenDt;
 
     /* 발견장소 */
@@ -48,7 +46,7 @@ public class AbandonPet {
     private String happenPlace;
 
     /* 축종 */
-    @Column(name = "upkind_cd", nullable = true, columnDefinition = "tinyint")
+    @Column(name = "upkind_cd", nullable = false, columnDefinition = "tinyint")
     private Integer upkindCd;
 
     /* 품종 */
@@ -68,15 +66,15 @@ public class AbandonPet {
     private BigDecimal weight;
 
     /* 공고번호 */
-    @Column(name = "notice_num", nullable = true)
+    @Column(name = "notice_num", nullable = false)
     private String noticeNum;
 
     /* 공고시작일 */
-    @Column(name = "notice_start_dt", nullable = true)
+    @Column(name = "notice_start_dt", nullable = false)
     private LocalDate noticeStartDt;
 
     /* 공고종료일 */
-    @Column(name = "notice_end_dt", nullable = true)
+    @Column(name = "notice_end_dt", nullable = false)
     private LocalDate noticeEndDt;
 
     /* 시도코드 */
@@ -88,7 +86,7 @@ public class AbandonPet {
     private String sigunguCd;
 
     /* 이미지URL */
-    @Column(name = "img_url", nullable = true)
+    @Column(name = "img_url", nullable = false)
     private String imgUrl;
 
     /* 썸네일이미지URL */
@@ -96,11 +94,11 @@ public class AbandonPet {
     private String thumbImgUrl;
 
     /* 성별코드(0모름,1수,2암) */
-    @Column(name = "gender_cd", nullable = true, columnDefinition = "tinyint")
+    @Column(name = "gender_cd", nullable = false, columnDefinition = "tinyint")
     private Integer genderCd;
 
     /* 중성화구분(0모름,1예,2아니오) */
-    @Column(name = "neuter_cd", nullable = true, columnDefinition = "tinyint")
+    @Column(name = "neuter_cd", nullable = false, columnDefinition = "tinyint")
     private Integer neuterCd;
 
     /* 특징 */
@@ -136,11 +134,11 @@ public class AbandonPet {
     private String noticeComment;
 
     /* 등록일 */
-    @Column(name = "create_dt", nullable = true)
+    @Column(name = "create_dt", nullable = false)
     private LocalDateTime createDt;
 
     /* 수정일 */
-    @Column(name = "update_dt", nullable = true)
+    @Column(name = "update_dt", nullable = false)
     private LocalDateTime updateDt;
 
     /* 사용여부 */
@@ -153,7 +151,7 @@ public class AbandonPet {
 
     /* 색상코드(a흰색,b검은색 */
     @Convert(converter = SetCharacteristicConverter.class)
-    @Column(name = "color_cd", nullable = false, columnDefinition = "set('a','b','c','d','e','f','g','h')")
+    @Column(name = "color_cd", nullable = false, columnDefinition = "set")
     private Set<Characteristic> colorCds;
 
     public String getDesertionNum() {

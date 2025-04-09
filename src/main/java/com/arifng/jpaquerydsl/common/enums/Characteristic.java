@@ -1,4 +1,4 @@
-package com.arifng.jpaquerydsl;
+package com.arifng.jpaquerydsl.common.enums;
 
 import java.util.Arrays;
 import java.util.Comparator;

@@ -11,7 +11,7 @@ import javax.persistence.Converter;
 
 import org.springframework.util.StringUtils;
 
-import com.arifng.jpaquerydsl.Characteristic;
+import com.arifng.jpaquerydsl.common.enums.Characteristic;
 
 import static java.util.stream.Collectors.joining;
 
