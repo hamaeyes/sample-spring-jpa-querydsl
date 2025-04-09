@@ -1,4 +1,4 @@
-package com.arifng.jpaquerydsl.model.common;
+package com.bong.jpaquerydsl.model.common;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
