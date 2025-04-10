@@ -151,7 +151,7 @@ public class AbandonPet {
 
     /* 색상코드(a흰색,b검은색 */
     @Convert(converter = SetCharacteristicConverter.class)
-    @Column(name = "color_cd", nullable = false, columnDefinition = "set")
+    @Column(name = "color_cd", nullable = false, columnDefinition = "set('a','b','c','d','e','f','g','h')")
     private Set<Characteristic> colorCds;
 
     public String getDesertionNum() {

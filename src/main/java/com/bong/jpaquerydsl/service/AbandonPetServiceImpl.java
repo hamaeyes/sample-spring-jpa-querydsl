@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class AbandonPetServiceImpl implements AbandonPetService {
 	
-	
 	private final AbandonPetRepository abandonPetRepository;
 
 	@Override
