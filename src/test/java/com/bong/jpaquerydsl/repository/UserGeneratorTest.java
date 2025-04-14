@@ -27,7 +27,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bong.jpaquerydsl.model.User;
 import com.bong.jpaquerydsl.service.UserServiceImpl;
 
-
+/**
+ * MockitoExtension을 이용한 JPA Repository Test.
+ * 
+ * @Mock + @InjectMocks + @Captor
+ * 
+ * 
+ * @author bongki-choi
+ *
+ */
  @ExtendWith(MockitoExtension.class)
  class UserGeneratorTest {
 

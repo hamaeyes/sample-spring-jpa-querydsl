@@ -1,6 +1,5 @@
 package com.bong.jpaquerydsl.service;
 
-import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -36,6 +35,6 @@ public class UserServiceImpl implements UserService {
 		} 
 		
 		return ret.get();
-	}
+	} 
 
 }
