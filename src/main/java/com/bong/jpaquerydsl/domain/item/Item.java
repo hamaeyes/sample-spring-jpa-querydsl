@@ -15,6 +15,11 @@ import javax.persistence.ManyToMany;
 import com.bong.jpaquerydsl.domain.Category;
 import com.bong.jpaquerydsl.exception.NotEnoughStockException;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DTYPE")

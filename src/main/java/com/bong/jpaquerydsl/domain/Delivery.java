@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import org.apache.tomcat.jni.Address;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +31,7 @@ public class Delivery {
     private DeliveryStatus status; //ENUM [READY(준비), COMP(배송)]
 
     public Delivery() {
+    
     }
 
     public Delivery(Address address) {
