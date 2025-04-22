@@ -1,6 +1,5 @@
 package com.bong.jpaquerydsl.dto;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,8 +26,6 @@ public class OrderDto  {
         this.memberName = memberName;
         this.status = status; 
         this.items = items;
-        
-        
     }
 
     public static OrderDto from(Order order) {
