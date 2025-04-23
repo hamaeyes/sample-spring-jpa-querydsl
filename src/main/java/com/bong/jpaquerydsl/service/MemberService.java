@@ -16,4 +16,6 @@ public interface MemberService {
 
 	public PagedResult<MemberDto> findMembersPageing(SearchDto search);
 	public PagedResult<MemberDto> findAllBySearch(SearchDto search);
+	
+	public MemberDto findMemberWithChildrenById(Long memberId);
 }

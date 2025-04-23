@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bong.jpaquerydsl.common.response.PagedResult;
@@ -57,6 +58,13 @@ public class MemberController {
 
 		memberService.saveBulk();
 		return; 
+	}
+	
+	@RequestMapping(value = "/member/info", method = RequestMethod.GET)
+	public @ResponseBody MemberDto memberWithChildren(@RequestParam(value = "memberId") Long memberId) {
+
+		MemberDto memberDto = memberService.findMemberWithChildrenById(memberId);
+		return memberDto;
 	}
 	
 }

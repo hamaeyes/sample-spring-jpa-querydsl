@@ -126,4 +126,9 @@ public class MemberServiceImpl implements MemberService  {
 	public PagedResult<MemberDto> findAllBySearch(SearchDto search) {
 		return memberRepository.findAllBySearch(search);
 	}
+
+	@Override
+	public MemberDto findMemberWithChildrenById(Long memberId) {
+		return memberRepository.findMemberWithChildrenById(memberId);
+	}
 }

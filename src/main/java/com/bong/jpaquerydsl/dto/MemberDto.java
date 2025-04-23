@@ -25,6 +25,8 @@ public class MemberDto {
 	
 	private List<OrderDto> orders;
 	
+	private List<ChildrenDto> childrens;
+	
 	public static MemberDto of(Member member) {
 		return MemberDto.builder()
 				.id(member.getId())
