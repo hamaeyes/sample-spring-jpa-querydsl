@@ -1,7 +1,9 @@
 package com.bong.jpaquerydsl.dto;
  
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.bong.jpaquerydsl.domain.Member;
@@ -27,12 +29,19 @@ public class MemberDto {
 	
 	private List<ChildrenDto> childrens;
 	
-	public static MemberDto of(Member member) {
+	public static MemberDto of(Member member) { 
+
 		return MemberDto.builder()
 				.id(member.getId())
 				.name(member.getName())
 				.address(AddressDto.of(member.getAddress()))
-				.orders(member.getOrders().stream().map(OrderDto::from).collect(Collectors.toList()))
+				.orders(
+						Optional.ofNullable(member.getOrders())
+						.orElse(Collections.emptyList())
+						.stream()
+						.map(OrderDto::from)  
+						.collect(Collectors.toList())
+				)
 				.build();
 	}
 }

@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bong.jpaquerydsl.common.response.PagedResult;
@@ -27,43 +27,74 @@ public class MemberController {
 	@Autowired
 	ItemService itemService;
 
-	@RequestMapping(value = "/members/new", method = RequestMethod.POST)
+	/**
+	 * 맴버 등록 
+	 * @param member
+	 * @param address
+	 * @return
+	 */
+	@RequestMapping(value = "/members/regist", method = RequestMethod.POST)
 	public @ResponseBody Long create(Member member, Address address) {
 
 		member.setAddress(address);
 		return memberService.join(member);
 	}
 
-	@RequestMapping(value = "/members", method = RequestMethod.GET)
+	/**
+	 *  맴버 전체 조회 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/members/list/all", method = RequestMethod.GET)
 	public @ResponseBody List<Member> list(Model model) {
 
 		List<Member> members = memberService.findMembers();
 		return members;
 	}
 	
-	@RequestMapping(value = "/member/search1", method = RequestMethod.GET)
+	/**
+	 * 맴버 전체 조회 - 페이징 - jpa 방식 
+	 * @param search
+	 * @return
+	 */
+	@RequestMapping(value = "/member/list/paging-jpa", method = RequestMethod.GET)
 	public @ResponseBody PagedResult<MemberDto> search1(SearchDto search) {
 
 		return memberService.findMembersPageing(search);
 	}
 	
-	@RequestMapping(value = "/member/search2", method = RequestMethod.GET)
+	/**
+	 * 맴버 전체 조회 - 페이징 - querydsl 방식 
+	 * @param search
+	 * @return
+	 */
+	@RequestMapping(value = "/member/list/paging-querydsl", method = RequestMethod.GET)
 	public @ResponseBody PagedResult<MemberDto> search2(SearchDto search) {
 
 		return memberService.findAllBySearch(search);
 	}
 	
-	@RequestMapping(value = "/member/generate", method = RequestMethod.GET)
+	/**
+	 * 맴버 정보 생성 - 샘플 데이터 
+	 * @param model
+	 */
+	@RequestMapping(value = "/member/generater/sample", method = RequestMethod.GET)
 	public @ResponseBody void generate(Model model) {
 
 		memberService.saveBulk();
 		return; 
 	}
 	
-	@RequestMapping(value = "/member/info", method = RequestMethod.GET)
-	public @ResponseBody MemberDto memberWithChildren(@RequestParam(value = "memberId") Long memberId) {
+	/**
+	 * 맴버 단건 조회 - 비 연관관계 테이블 조인.
+	 * @param memberId
+	 * @return
+	 */
+	@RequestMapping(value = "/member/info/{memberId}", method = RequestMethod.GET)
+	public @ResponseBody MemberDto memberWithChildren(@PathVariable Long memberId) {
 
-		MemberDto memberDto = memberService.findMemberWithChildrenById(memberId);
+		//MemberDto memberDto = memberService.findMemberWithChildrenById(memberId);
+		MemberDto memberDto = memberService.findMemberOnlyById(memberId).orElse(null);
 		return memberDto;
 	}
 	

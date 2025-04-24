@@ -1,9 +1,11 @@
 package com.bong.jpaquerydsl.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ import com.bong.jpaquerydsl.dto.ChildrenDto;
 import com.bong.jpaquerydsl.dto.MemberDto;
 import com.bong.jpaquerydsl.dto.SearchDto;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -103,6 +107,92 @@ public class MemberRepositoryImpl extends QuerydslRepositorySupport implements M
 		}
 		
 		return null; 
+	}
+
+	@Override
+	public Optional<MemberDto> findMemberOnlyById1(long memberId) {
+		// 생성자로 Projections 하기 
+		QMember qMember = QMember.member;
+		System.out.println(Arrays.toString(MemberDto.class.getConstructors()));
+		System.out.println(Arrays.toString(AddressDto.class.getConstructors()));
+		 
+		JPAQuery<MemberDto> query = queryFactory.select(
+				Projections.constructor(MemberDto.class,
+					qMember.id,
+					qMember.name,
+					Projections.constructor(AddressDto.class,
+					        qMember.address.city,
+					        qMember.address.street,
+					        qMember.address.zipcode
+					    )
+					,
+					Expressions.constant(List.of()),
+					Expressions.constant(List.of())
+					)
+				)
+				.from(qMember)
+				.where(qMember.id.eq(memberId))
+				.setHint("org.hibernate.comment", "멤버 조회, MemberRepositoryImpl.findMemberOnlyById")
+				.orderBy(qMember.name.desc())
+				.limit(1);  
+		
+		return Optional.of(query.fetchFirst());
+	}
+	
+	@Override
+	public Optional<MemberDto> findMemberOnlyById2(long memberId) {
+		// 필드명으로 Projections 하기 
+		QMember qMember = QMember.member;
+		System.out.println(Arrays.toString(MemberDto.class.getConstructors()));
+		System.out.println(Arrays.toString(AddressDto.class.getConstructors()));
+		 
+		JPAQuery<MemberDto> query = queryFactory.select(
+				Projections.fields(MemberDto.class,
+					qMember.id.as("id"),
+					qMember.name.as("name"),
+					Projections.fields(AddressDto.class,
+					        qMember.address.city.as("city"),
+					        qMember.address.street.as("street"),
+					        qMember.address.zipcode.as("zipcode")
+					    ).as("address")
+					//,
+					//ExpressionUtils.as(Expressions.constant(List.of()), "orders"),
+					//ExpressionUtils.as(Expressions.constant(List.of()), "childrens")
+					)
+				)
+				.from(qMember)
+				.where(qMember.id.eq(memberId))
+				.setHint("org.hibernate.comment", "멤버 조회, MemberRepositoryImpl.findMemberOnlyById")
+				.orderBy(qMember.name.desc())
+				.limit(1); 
+		return Optional.of(query.fetchFirst());
+	}
+	
+	@Override
+	public Optional<MemberDto> findMemberOnlyById3(long memberId) {
+		// Setter 메소드로 Projections 하기 
+		QMember qMember = QMember.member;
+		System.out.println(Arrays.toString(MemberDto.class.getConstructors()));
+		System.out.println(Arrays.toString(AddressDto.class.getConstructors())); 
+		
+		JPAQuery<MemberDto> query = queryFactory.select(
+				Projections.bean(MemberDto.class,
+					qMember.id,
+					qMember.name,
+					Projections.bean(AddressDto.class,
+					        qMember.address.city,
+					        qMember.address.street,
+					        qMember.address.zipcode
+					    ).as("address")
+					)
+				)
+				.from(qMember)
+				.where(qMember.id.eq(memberId))
+				.setHint("org.hibernate.comment", "멤버 조회, MemberRepositoryImpl.findMemberOnlyById")
+				.orderBy(qMember.name.desc())
+				.limit(1); 
+		
+		return Optional.of(query.fetchFirst());
 	}
 
 }

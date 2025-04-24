@@ -18,6 +18,10 @@ public class AddressDto {
 	private String zipcode;
 	
 	public static AddressDto of(Address address) {
+		if(address == null) {
+			return null;
+		}
+		
 		return AddressDto.builder()
 				.city(address.getCity())
 				.street(address.getStreet())

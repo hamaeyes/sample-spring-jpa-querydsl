@@ -2,6 +2,7 @@ package com.bong.jpaquerydsl.service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -130,5 +131,10 @@ public class MemberServiceImpl implements MemberService  {
 	@Override
 	public MemberDto findMemberWithChildrenById(Long memberId) {
 		return memberRepository.findMemberWithChildrenById(memberId);
+	}
+
+	@Override
+	public Optional<MemberDto> findMemberOnlyById(Long memberId) {
+		return memberRepository.findMemberOnlyById3(memberId);
 	}
 }

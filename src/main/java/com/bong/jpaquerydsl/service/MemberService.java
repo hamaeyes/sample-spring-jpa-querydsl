@@ -1,6 +1,7 @@
 package com.bong.jpaquerydsl.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.bong.jpaquerydsl.common.response.PagedResult;
 import com.bong.jpaquerydsl.domain.Member;
@@ -18,4 +19,5 @@ public interface MemberService {
 	public PagedResult<MemberDto> findAllBySearch(SearchDto search);
 	
 	public MemberDto findMemberWithChildrenById(Long memberId);
+	public Optional<MemberDto> findMemberOnlyById(Long memberId);
 }
