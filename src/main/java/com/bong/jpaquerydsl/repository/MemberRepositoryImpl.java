@@ -23,11 +23,13 @@ import com.bong.jpaquerydsl.domain.QOrderItem;
 import com.bong.jpaquerydsl.domain.item.QItem;
 import com.bong.jpaquerydsl.dto.AddressDto;
 import com.bong.jpaquerydsl.dto.ChildrenDto;
+import com.bong.jpaquerydsl.dto.MemberChildrenDto;
 import com.bong.jpaquerydsl.dto.MemberDto;
 import com.bong.jpaquerydsl.dto.SearchDto;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -108,6 +110,81 @@ public class MemberRepositoryImpl extends QuerydslRepositorySupport implements M
 		
 		return null; 
 	}
+	
+	
+	@Override
+	public Optional<MemberChildrenDto> findMemberWithChildrenSelectSubQueryById(long memberId) {
+		QMember qMember = QMember.member;
+		QChildren qChildren = QChildren.children;
+		
+		// 1. Member - Children를 조인해서 Tuple로 전체 조회. 
+		JPAQuery<MemberChildrenDto> query = queryFactory.select(
+				Projections.fields(MemberChildrenDto.class, 
+						qMember.id.as("id"),
+						qMember.name.as("name"),
+						Expressions.as(
+							JPAExpressions
+								.select(qChildren.id.count())
+								.from(qChildren)
+								.where(qChildren.memberId.eq(qMember.id))
+						, "childrenCount"),
+						Expressions.cases().when(
+							JPAExpressions
+								.select(qChildren.id.count())
+								.from(qChildren)
+								.where(qChildren.memberId.eq(qMember.id))
+								.gt(0L)).then("Y").otherwise("N")
+						.as("childrenYn")
+						
+					)
+			)
+			.from(qMember)
+			.leftJoin(qChildren).on(qChildren.memberId.eq(qMember.id))
+			.where(qMember.id.eq(memberId));
+		
+		return Optional.of(query.fetchFirst());
+		
+	}
+	
+	@Override
+	public List<MemberChildrenDto> findMemberWithChildrenWhereSubQueryById() {
+		QMember qMember = QMember.member;
+		QChildren qChildren = QChildren.children;
+		
+		JPAQuery<MemberChildrenDto> query = queryFactory.select(
+				Projections.fields(MemberChildrenDto.class, 
+						qMember.id.as("id"),
+						qMember.name.as("name"),
+						Expressions.as(
+							JPAExpressions
+								.select(qChildren.id.count())
+								.from(qChildren)
+								.where(qChildren.memberId.eq(qMember.id))
+						, "childrenCount"),
+						Expressions.cases().when(
+							JPAExpressions
+								.select(qChildren.id.count())
+								.from(qChildren)
+								.where(qChildren.memberId.eq(qMember.id))
+								.gt(0L)).then("Y").otherwise("N")
+						.as("childrenYn")
+						
+					)
+			)
+			.from(qMember) 
+			.where(
+					qMember.id.in(
+							JPAExpressions
+							.select(qChildren.memberId).distinct()
+							.from(qChildren)
+							.where(qChildren.gender.eq("F"))
+							)
+					
+			); 
+		
+		return query.fetch();
+	}
+	
 
 	@Override
 	public Optional<MemberDto> findMemberOnlyById1(long memberId) {
@@ -194,5 +271,9 @@ public class MemberRepositoryImpl extends QuerydslRepositorySupport implements M
 		
 		return Optional.of(query.fetchFirst());
 	}
+
+	
+
+	
 
 }

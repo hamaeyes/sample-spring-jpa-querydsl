@@ -19,6 +19,7 @@ import com.bong.jpaquerydsl.domain.Member;
 import com.bong.jpaquerydsl.domain.Order;
 import com.bong.jpaquerydsl.domain.OrderItem;
 import com.bong.jpaquerydsl.domain.item.Book;
+import com.bong.jpaquerydsl.dto.MemberChildrenDto;
 import com.bong.jpaquerydsl.dto.MemberDto;
 import com.bong.jpaquerydsl.dto.SearchDto;
 import com.bong.jpaquerydsl.repository.ItemRepository;
@@ -136,5 +137,15 @@ public class MemberServiceImpl implements MemberService  {
 	@Override
 	public Optional<MemberDto> findMemberOnlyById(Long memberId) {
 		return memberRepository.findMemberOnlyById3(memberId);
+	}
+
+	@Override
+	public Optional<MemberChildrenDto> findMemberWithChildrenSelectSubQueryById(long memberId) {
+		return memberRepository.findMemberWithChildrenSelectSubQueryById(memberId);
+	}
+	
+	@Override
+	public List<MemberChildrenDto> findMemberWithChildrenWhereSubQueryById() {
+		return memberRepository.findMemberWithChildrenWhereSubQueryById();
 	}
 }

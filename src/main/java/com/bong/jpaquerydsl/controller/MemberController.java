@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bong.jpaquerydsl.common.response.PagedResult;
 import com.bong.jpaquerydsl.domain.Address;
 import com.bong.jpaquerydsl.domain.Member;
+import com.bong.jpaquerydsl.dto.MemberChildrenDto;
 import com.bong.jpaquerydsl.dto.MemberDto;
 import com.bong.jpaquerydsl.dto.SearchDto;
 import com.bong.jpaquerydsl.service.ItemService;
@@ -90,12 +91,42 @@ public class MemberController {
 	 * @param memberId
 	 * @return
 	 */
-	@RequestMapping(value = "/member/info/{memberId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/member/children/{memberId}", method = RequestMethod.GET)
 	public @ResponseBody MemberDto memberWithChildren(@PathVariable Long memberId) {
 
-		//MemberDto memberDto = memberService.findMemberWithChildrenById(memberId);
+		MemberDto memberDto = memberService.findMemberWithChildrenById(memberId);
+		return memberDto;
+	}
+	
+	@RequestMapping(value = "/member/projections/{memberId}", method = RequestMethod.GET)
+	public @ResponseBody MemberDto findMemberOnlyById(@PathVariable Long memberId) {
+
 		MemberDto memberDto = memberService.findMemberOnlyById(memberId).orElse(null);
 		return memberDto;
+	}
+	
+	
+	/**
+	 * 멤버 단건 조회 - 비 연관관계 테이블 조인. - 서브쿼리 추가 
+	 * @param memberId
+	 * @return
+	 */
+	@RequestMapping(value = "/member/subquery-select/{memberId}", method = RequestMethod.GET)
+	public @ResponseBody MemberChildrenDto memberWithChildrenSelectSubQuery(@PathVariable Long memberId) {
+
+		MemberChildrenDto resultDto = memberService.findMemberWithChildrenSelectSubQueryById(memberId).orElse(null);
+		return resultDto;
+	}
+	
+	/**
+	 * 멤버 단건 조회 - 비 연관관계 테이블 조인. - 서브쿼리 추가 
+	 * @param memberId
+	 * @return
+	 */
+	@RequestMapping(value = "/member/subquery-where", method = RequestMethod.GET)
+	public @ResponseBody List<MemberChildrenDto> memberWithChildrenWhereSubQuery() {
+
+		return memberService.findMemberWithChildrenWhereSubQueryById(); 
 	}
 	
 }

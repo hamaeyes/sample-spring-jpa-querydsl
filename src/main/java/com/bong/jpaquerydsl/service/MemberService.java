@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.bong.jpaquerydsl.common.response.PagedResult;
 import com.bong.jpaquerydsl.domain.Member;
+import com.bong.jpaquerydsl.dto.MemberChildrenDto;
 import com.bong.jpaquerydsl.dto.MemberDto;
 import com.bong.jpaquerydsl.dto.SearchDto;
 
@@ -19,5 +20,8 @@ public interface MemberService {
 	public PagedResult<MemberDto> findAllBySearch(SearchDto search);
 	
 	public MemberDto findMemberWithChildrenById(Long memberId);
+	public Optional<MemberChildrenDto> findMemberWithChildrenSelectSubQueryById(long memberId);
+	public List<MemberChildrenDto> findMemberWithChildrenWhereSubQueryById();
+	
 	public Optional<MemberDto> findMemberOnlyById(Long memberId);
 }
